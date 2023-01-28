@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: <Widget>[
           IconButton(
-            onPressed: () => Navigator.of(context).pushNamed('/home_screen'),
+            onPressed: () => Navigator.of(context).pushNamed('/chart'),
             icon: Icon(Icons.dashboard),
           ),
           Row(children: <Widget>[

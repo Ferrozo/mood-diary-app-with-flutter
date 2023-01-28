@@ -27,7 +27,7 @@ class MoodCard extends ChangeNotifier {
   List<MoodData> data = [];
   String? date;
   bool isloading = false;
-  List<String> actiname = [];
+  List<String> actiName = [];
 
   void add(ActivityModel act) {
     activityImages.add(act.image);

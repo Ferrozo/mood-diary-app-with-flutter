@@ -3,7 +3,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 class MoodData {
   String date;
   int moodno;
-  final charts.Color barColor;
+  charts.Color barColor;
 
-  MoodData(this.moodno, this.date, this.barColor);
+  MoodData({required this.moodno, required this.date, required this.barColor});
 }
