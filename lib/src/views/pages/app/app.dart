@@ -17,7 +17,7 @@ class App extends StatelessWidget {
         home: HomePage(),
         routes: {
           '/home_screen': (ctx) => const HomePage(),
-          '/chart': (ctx) => Dashboard(),
+          '/dashboard': (ctx) => Dashboard(),
         },
       ),
     );

@@ -36,7 +36,7 @@ class MoodCard extends ChangeNotifier {
   }
 
   Future<void> addPlace(
-    String dataTime,
+    String dateTime,
     String mood,
     String image,
     String actImage,
@@ -49,11 +49,13 @@ class MoodCard extends ChangeNotifier {
         'dateTime': dateTime,
         'mood': mood,
         'image': image,
-        'actImage': actImage,
-        'actiName': actName,
+        // 'actImage': actImage,
+        'actName': actName,
         'date': date
       },
     );
+
+    print('dateTime $dateTime \n dateOnly $date');
     notifyListeners();
   }
 

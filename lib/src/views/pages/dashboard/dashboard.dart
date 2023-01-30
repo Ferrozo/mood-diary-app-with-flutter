@@ -27,23 +27,24 @@ class _DashboardState extends State<Dashboard> {
         : Scaffold(
             body: FutureBuilder<List>(
                 future: DBHelper.getData('user_moods'),
-                initialData: const [],
+                // initialData: const [],
                 builder: (context, snapshot) {
-                  return snapshot.data!.isNotEmpty
+                  print('debug:> ${snapshot.data?.length}');
+
+                  return snapshot.hasData
                       ? ListView.builder(
                           shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
+                          itemCount: snapshot.data?.length,
                           itemBuilder: (_, index) {
                             var imageString = snapshot.data![index]['actImage'];
-                            List<String> img = imageString.split('_');
+                            List<String> img = ['.'];
                             List<String> name =
                                 snapshot.data![index]['actName'].split('_');
-                            Provider.of<MoodCard>(context, listen: false)
+                            Provider.of<MoodCard>(_, listen: false)
                                 .actiName
                                 .addAll(name);
-                            Provider.of<MoodCard>(context, listen: false)
-                                .data
-                                .add(MoodData(
+                            Provider.of<MoodCard>(_, listen: false).data.add(
+                                MoodData(
                                     moodno: snapshot.data![index]['mood'] ==
                                             'Angry'
                                         ? 1
@@ -66,7 +67,7 @@ class _DashboardState extends State<Dashboard> {
                                                                 'Scared'
                                                             ? 6
                                                             : 7,
-                                    date: snapshot.data![index]['date'],
+                                    date: snapshot.data?[index]['date'],
                                     barColor: snapshot.data![index]['mood'] ==
                                             'Angry'
                                         ? charts.ColorUtil.fromDartColor(
@@ -86,13 +87,13 @@ class _DashboardState extends State<Dashboard> {
                             return MoodOfDay(
                               image: snapshot.data![index]['image'],
                               mood: snapshot.data![index]['mood'],
-                              dateTime: snapshot.data![index]['datetime'],
+                              dateTime: snapshot.data?[index]['dateTime'],
                               a: name,
                               b: img,
                             );
                           },
                         )
-                      : Center(
+                      : const Center(
                           child: CircularProgressIndicator(),
                         );
                 }),

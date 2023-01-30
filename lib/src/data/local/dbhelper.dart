@@ -10,7 +10,7 @@ class DBHelper {
     return sql.openDatabase(path.join(dbPath, 'moods.db'),
         onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE user_moods(datetime TEXT PRIMARY KEY, mood TEXT, image TEXT, actname TEXT, actname TEXT, date TEXT');
+          'CREATE TABLE user_moods( dateTime TEXT PRIMARY KEY, mood TEXT, image TEXT,  actName TEXT, date TEXT )');
     }, version: 1);
   }
 
@@ -21,6 +21,7 @@ class DBHelper {
       data,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    print('sent to database');
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {
@@ -29,8 +30,8 @@ class DBHelper {
     return res.toList();
   }
 
-  static Future<void> delete(String datatime) async {
+  static Future<void> delete(String dateTime) async {
     final db = await DBHelper.database();
-    await db.rawDelete('DELETE FROM user_moods WHERE datetime = ?', [datatime]);
+    await db.rawDelete('DELETE FROM user_moods WHERE dateTime = ?', [dateTime]);
   }
 }

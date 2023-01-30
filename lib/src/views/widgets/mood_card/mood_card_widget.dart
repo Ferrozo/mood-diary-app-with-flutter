@@ -21,6 +21,7 @@ showLoaderDialog(BuildContext context) {
   );
 }
 
+// ignore: must_be_immutable
 class MoodOfDay extends StatefulWidget {
   MoodOfDay({
     Key? key,
@@ -65,7 +66,7 @@ class _MoodOfDayState extends State<MoodOfDay> {
                     fontSize: 15),
               ),
               Text(
-                widget.dateTime ?? 'nothing',
+                widget.dateTime.toString(),
                 style: TextStyle(
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.bold,
@@ -116,7 +117,7 @@ class _MoodOfDayState extends State<MoodOfDay> {
                       return Row(
                         children: <Widget>[
                           Text(
-                            widget.b![index] ?? 'nothinng',
+                            widget.b?[index] ?? 'nothinng',
                             style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.bold,
