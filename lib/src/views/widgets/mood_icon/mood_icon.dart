@@ -15,7 +15,7 @@ class MoodIcon extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: color),
       ),
-      height: 75,
+      height: 100,
       width: 55,
       child: Column(
         children: <Widget>[

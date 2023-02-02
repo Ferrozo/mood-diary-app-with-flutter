@@ -7,10 +7,10 @@ class DBHelper {
   static Future<Database> database() async {
     final dbPath = await sql.getDatabasesPath();
 
-    return sql.openDatabase(path.join(dbPath, 'moods.db'),
+    return sql.openDatabase(path.join(dbPath, 'database.db'),
         onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE user_moods( dateTime TEXT PRIMARY KEY, mood TEXT, image TEXT,  actName TEXT, date TEXT )');
+          'CREATE TABLE user_moods( dateTime TEXT PRIMARY KEY, dayOfWeek TEXT, mood TEXT, image TEXT, date TEXT )');
     }, version: 1);
   }
 

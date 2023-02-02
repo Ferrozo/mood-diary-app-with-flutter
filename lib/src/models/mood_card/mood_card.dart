@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:mood_diary_app_with_flutter/src/data/helpers/mood_data/mood_data.dart';
 import 'package:mood_diary_app_with_flutter/src/data/local/dbhelper.dart';
@@ -8,8 +10,8 @@ import 'package:mood_diary_app_with_flutter/src/models/activity/activity_model.d
 
 class MoodCard extends ChangeNotifier {
   MoodCard({
-    required this.actImage,
-    required this.actName,
+    // required this.actImage,
+    required this.dayOfWeek,
     required this.dateTime,
     required this.image,
     required this.mood,
@@ -17,30 +19,30 @@ class MoodCard extends ChangeNotifier {
 
   String dateTime;
   String mood;
-  List<String> activityNames = [];
-  List<String> activityImages = [];
+  // List<String> activityNames = [];
+  // List<String> activityImages = [];
   String image;
-  String actImage;
-  String actName;
+  // String actImage;
+  String dayOfWeek;
 
   List? items;
   List<MoodData> data = [];
   String? date;
   bool isloading = false;
-  List<String> actiName = [];
+  List<Color> colors = [];
 
-  void add(ActivityModel act) {
-    activityImages.add(act.image);
-    activityNames.add(act.name);
-    notifyListeners();
-  }
+  // void add(ActivityModel act) {
+  //   activityImages.add(act.image);
+  //   activityNames.add(act.name);
+  //   notifyListeners();
+  // }
 
   Future<void> addPlace(
     String dateTime,
     String mood,
     String image,
-    String actImage,
-    String actName,
+    // String actImage,
+    String dayOfWeek,
     String date,
   ) async {
     DBHelper.insert(
@@ -49,8 +51,9 @@ class MoodCard extends ChangeNotifier {
         'dateTime': dateTime,
         'mood': mood,
         'image': image,
+        'colors': colors,
         // 'actImage': actImage,
-        'actName': actName,
+        'dayOfWeek': dayOfWeek,
         'date': date
       },
     );

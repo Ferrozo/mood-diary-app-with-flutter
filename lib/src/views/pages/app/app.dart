@@ -10,8 +10,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: MoodCard(
-          actImage: '', actName: '', dateTime: '', image: '', mood: ''),
+      value: MoodCard(dayOfWeek: '', dateTime: '', image: '', mood: ''),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: HomePage(),

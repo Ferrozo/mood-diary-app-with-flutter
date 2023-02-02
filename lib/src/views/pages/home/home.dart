@@ -8,6 +8,7 @@ import 'package:mood_diary_app_with_flutter/src/views/widgets/activity_icon/acti
 import 'package:mood_diary_app_with_flutter/src/views/widgets/mood/mood_info_card.dart';
 import 'package:mood_diary_app_with_flutter/src/views/widgets/mood_icon/mood_icon.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -26,11 +27,12 @@ class _HomePageState extends State<HomePage> {
   String? image;
   String? datePicked;
   String? timePicked;
-  String? dateTime;
+  DateTime dateTime = DateTime.now();
   int? currentIndex;
   int onTapCount = 0;
   Color colors = Colors.white;
   String? dateOnly;
+  String? dayOfWeek;
 
   List<MoodModel> moods = [
     MoodModel(
@@ -110,6 +112,10 @@ class _HomePageState extends State<HomePage> {
         });
       }
     });
+    // dateTime = ;
+    dayOfWeek = DateFormat('EEEE').format(dateTime).toString();
+    dateOnly = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
+
     super.initState();
   }
 
@@ -122,229 +128,255 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(microseconds: 100),
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-        colors: moods[_currentIndex].colors,
-        begin: Alignment.bottomCenter,
-        end: Alignment.topLeft,
-      )),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 80),
-              Text(
-                'How are you \nfeeling Today?',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey.shade800,
-                  fontSize: 40,
+        duration: const Duration(microseconds: 100),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          colors: moods[_currentIndex].colors,
+          begin: Alignment.bottomCenter,
+          end: Alignment.topLeft,
+        )),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 80),
+                Text(
+                  'How are you \nfeeling Today?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade800,
+                    fontSize: 40,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 100),
-              AspectRatio(
-                aspectRatio: 1.4,
-                child: PageView.builder(
-                    controller: _currentPage,
-                    itemCount: moods.length,
-                    itemBuilder: (_, currentIndex) {
-                      return Center(
-                        child: MoodInfoCard(
-                          moodTitle: moods[currentIndex].title,
-                          moodEmoji: moods[currentIndex].image,
-                        ),
-                      );
-                    }),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 80),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.black,
-                      ),
-                      height: 60,
-                      width: MediaQuery.of(context).size.width - 25,
-                      child: TextButton(
-                        child: const Text(
-                          'Select',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                const SizedBox(height: 100),
+                AspectRatio(
+                  aspectRatio: 1.4,
+                  child: PageView.builder(
+                      onPageChanged: (_) {
+                        setState(() {
+                          mood = moods[_currentIndex].title;
+                          image = moods[_currentIndex].image;
+                          // moods[_currentPage.page!.toInt()].isSelected = true;
+                          // onTapCount += onTapCount;
+                          print(mood);
+                        });
+                      },
+                      controller: _currentPage,
+                      itemCount: moods.length,
+                      itemBuilder: (_, currentIndex) {
+                        return Center(
+                          child: MoodInfoCard(
+                            moodTitle: moods[currentIndex].title,
+                            moodEmoji: moods[currentIndex].image,
                           ),
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
+                        );
+                      }),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 80),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.black,
+                        ),
+                        height: 60,
+                        width: MediaQuery.of(context).size.width - 25,
+                        child: TextButton(
+                          child: const Text(
+                            'Select',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                          onPressed: () async {
+                            await Provider.of<MoodCard>(context, listen: false)
+                                .addPlace(
+                              dateTime.toString(),
+                              mood.toString(),
+                              dayOfWeek.toString(),
+                              dateOnly.toString(),
+                              image.toString(),
+                            );
+                            Navigator.of(context).pushNamed('/dashboard');
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        // body: Column(
-        //   children: <Widget>[
-        //     IconButton(
-        //       onPressed: () => Navigator.of(context).pushNamed('/dashboard'),
-        //       icon: const Icon(Icons.dashboard),
-        //     ),
-        //     Row(children: <Widget>[
-        //       const SizedBox(width: 70),
-        //       IconButton(
-        //           icon: const Icon(Icons.date_range),
-        //           onPressed: () => showDatePicker(
-        //                       context: context,
-        //                       initialDate: DateTime.now(),
-        //                       firstDate: DateTime(2001),
-        //                       lastDate: DateTime(2024))
-        //                   .then(
-        //                 (date) => {
-        //                   setState(
-        //                     () {
-        //                       datePicked =
-        //                           '${date!.day.toString()} - ${date.month.toString()} - ${date.year.toString()}';
-        //                       dateOnly =
-        //                           '${date.day..toString()} / ${date.month.toString()}';
-        //                     },
-        //                   ),
-        //                 },
-        //               )),
-        //       IconButton(
-        //         icon: const Icon(Icons.timer),
-        //         onPressed: () =>
-        //             showTimePicker(context: context, initialTime: TimeOfDay.now())
-        //                 .then(
-        //           (time) => {
-        //             setState(
-        //               () {
-        //                 timePicked = time!.format(context).toString();
-        //               },
-        //             ),
-        //           },
-        //         ),
-        //       ),
-        //       Container(
-        //         height: 40,
-        //         width: 40,
-        //         child: FloatingActionButton(
-        //           child: const Icon(Icons.done),
-        //           onPressed: () => setState(() {
-        //             dateTime = '${datePicked} ${timePicked}';
-        //             // ignore: avoid_print
-        //             print(dateTime);
-        //           }),
-        //         ),
-        //       )
-        //     ]),
-        //     Expanded(
-        //       child: ListView.builder(
-        //           scrollDirection: Axis.horizontal,
-        //           itemCount: moods.length,
-        //           itemBuilder: (context, index) {
-        //             return Row(
-        //               children: <Widget>[
-        //                 const SizedBox(width: 15),
-        //                 GestureDetector(
-        //                     child: MoodIcon(
-        //                         image: moods[index].image,
-        //                         name: moods[index].title,
-        //                         color: moods[index].isSelected
-        //                             ? Colors.black
-        //                             : Colors.white),
-        //                     onTap: () => {
-        //                           if (onTapCount == 0)
-        //                             {
-        //                               setState(() {
-        //                                 mood = moods[index].title;
-        //                                 image = moods[index].image;
-        //                                 moods[index].isSelected = true;
-        //                                 onTapCount += onTapCount;
-        //                                 print(mood);
-        //                               }),
-        //                             }
-        //                           else if (moods[index].isSelected)
-        //                             {
-        //                               setState(() {
-        //                                 moods[index].isSelected = false;
-        //                                 onTapCount = 0;
-        //                               })
-        //                             }
-        //                         }),
-        //               ],
-        //             );
-        //           }),
-        //     ),
-        //     const Text('WHAT YOU HAVE BEEN DOING?',
-        //         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        //     const SizedBox(height: 10),
-        //     const Text('Hold on the activity to select,You can choose multiple',
-        //         style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
-        //     Expanded(
-        //       child: ListView.builder(
-        //           scrollDirection: Axis.horizontal,
-        //           itemCount: act.length,
-        //           itemBuilder: (context, index) {
-        //             return Row(children: <Widget>[
-        //               const SizedBox(width: 15),
-        //               GestureDetector(
-        //                   child: ActivityIcon(
-        //                       image: act[index].image,
-        //                       name: act[index].name,
-        //                       color: act[index].selected
-        //                           ? Colors.black
-        //                           : Colors.white),
-        //                   onTap: () {
-        //                     if (act[index].selected) {
-        //                       setState(() {
-        //                         act[index].selected = false;
-        //                       });
-        //                     } else {
-        //                       setState(
-        //                         () {
-        //                           act[index].selected = true;
-        //                           Provider.of<MoodCard>(context, listen: false)
-        //                               .add(act[index]);
+          // return Scaffold(
+          //   appBar: AppBar(),
+          //   body: Column(
+          //     children: <Widget>[
+          //       IconButton(
+          //         onPressed: () => setState(() {
+          //           print('Day of week : $dayOfWeek');
+          //         }),
+          //         icon: const Icon(Icons.dashboard),
+          //       ),
+          //       Row(children: <Widget>[
+          //         const SizedBox(width: 70),
+          //         IconButton(
+          //             icon: const Icon(Icons.date_range),
+          //             onPressed: () {
+          //               setState(() {
+          //                 // dateTime = DateTime.now().toString();
+          //                 print('datatiming : $dayOfWeek');
+          //               });
+          //             }
+          //             // => showDatePicker(
+          //             //             context: context,
+          //             //             initialDate: DateTime.now(),
+          //             //             firstDate: DateTime(2001),
+          //             //             lastDate: DateTime(2024))
+          //             //         .then(
+          //             //       (date) => {
+          //             //         setState(
+          //             //           () {
+          //             //             datePicked =
+          //             //                 '${date!.day.toString()} - ${date.month.toString()} - ${date.year.toString()}';
+          //             //             dateOnly =
+          //             //                 '${date.day..toString()} / ${date.month.toString()}';
+          //             //           },
+          //             //         ),
+          //             //       },
+          //             //     )
+          //             ),
+          //         IconButton(
+          //           icon: const Icon(Icons.timer),
+          //           onPressed: () =>
+          //               showTimePicker(context: context, initialTime: TimeOfDay.now())
+          //                   .then(
+          //             (time) => {
+          //               setState(
+          //                 () {
+          //                   timePicked = time!.format(context).toString();
+          //                 },
+          //               ),
+          //             },
+          //           ),
+          //         ),
+          //         Container(
+          //           height: 40,
+          //           width: 40,
+          //           child: FloatingActionButton(
+          //             child: const Icon(Icons.done),
+          //             onPressed: () => setState(() {
+          //               // dateTime = '${datePicked} ${timePicked}';
+          //               // ignore: avoid_print
+          //               print(dateTime);
+          //             }),
+          //           ),
+          //         )
+          //       ]),
+          //       Expanded(
+          //         child: ListView.builder(
+          //             scrollDirection: Axis.horizontal,
+          //             itemCount: moods.length,
+          //             itemBuilder: (context, index) {
+          //               return Row(
+          //                 children: <Widget>[
+          //                   const SizedBox(width: 15),
+          //                   GestureDetector(
+          //                       child: MoodIcon(
+          //                           image: moods[index].image,
+          //                           name: moods[index].title,
+          //                           color: moods[index].isSelected
+          //                               ? Colors.black
+          //                               : Colors.white),
+          //                       onTap: () => {
+          //                             if (onTapCount == 0)
+          //                               {
+          //                                 setState(() {
+          //                                   mood = moods[index].title;
+          //                                   image = moods[index].image;
+          //                                   moods[index].isSelected = true;
+          //                                   onTapCount += onTapCount;
+          //                                   print(mood);
+          //                                 }),
+          //                               }
+          //                             else if (moods[index].isSelected)
+          //                               {
+          //                                 setState(() {
+          //                                   moods[index].isSelected = false;
+          //                                   onTapCount = 0;
+          //                                 })
+          //                               }
+          //                           }),
+          //                 ],
+          //               );
+          //             }),
+          //       ),
+          //       const Text('WHAT YOU HAVE BEEN DOING?',
+          //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          //       const SizedBox(height: 10),
+          //       const Text('Hold on the activity to select,You can choose multiple',
+          //           style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
+          //       Expanded(
+          //         child: ListView.builder(
+          //             scrollDirection: Axis.horizontal,
+          //             itemCount: act.length,
+          //             itemBuilder: (context, index) {
+          //               return Row(children: <Widget>[
+          //                 const SizedBox(width: 15),
+          //                 GestureDetector(
+          //                     child: ActivityIcon(
+          //                         image: act[index].image,
+          //                         name: act[index].name,
+          //                         color: act[index].selected
+          //                             ? Colors.black
+          //                             : Colors.white),
+          //                     onTap: () {
+          //                       if (act[index].selected) {
+          //                         setState(() {
+          //                           act[index].selected = false;
+          //                         });
+          //                       } else {
+          //                         setState(
+          //                           () {
+          //                             act[index].selected = true;
+          //                             // Provider.of<MoodCard>(context, listen: false)
+          //                             //     .add(act[index]);
 
-        //                           print(act[index].selected);
-        //                         },
-        //                       );
-        //                     }
-        //                   }),
-        //             ]);
-        //           }),
-        //     ),
-        //     IconButton(
-        //       onPressed: () => {
-        //         setState(
-        //           () {
-        //             Provider.of<MoodCard>(context, listen: false).addPlace(
-        //                 dateTime!,
-        //                 mood!,
-        //                 image!,
-        //                 Provider.of<MoodCard>(context, listen: false)
-        //                     .activityImages
-        //                     .join('_'),
-        //                 Provider.of<MoodCard>(context, listen: false)
-        //                     .activityNames
-        //                     .join('_'),
-        //                 dateOnly!);
-        //           },
-        //         ),
-        //         // Navigator.of(context).pushNamed('/home_screen'),
-        //       },
-        //       icon: const Icon(Icons.send),
-        //     )
-        //   ],
-        // ),
-      ),
-    );
+          //                             print(act[index].selected);
+          //                           },
+          //                         );
+          //                       }
+          //                     }),
+          //               ]);
+          //             }),
+          //       ),
+          //       IconButton(
+          //         onPressed: () => {
+          //           // setState(
+          //           //   () {
+          //           //     Provider.of<MoodCard>(context, listen: false).addPlace(
+          //           //         dayOfWeek!,
+          //           //         mood!,
+          //           //         image!,
+          //           //         dateOnly!,
+          //           //         dateTime,
+          //           //         );
+          //           //   },
+          //           // ),
+          //           // Navigator.of(context).pushNamed('/home_screen'),
+          //         },
+          //         icon: const Icon(Icons.send),
+          //       )
+          //     ],
+          //   ),
+          // ),
+        ));
   }
 }
