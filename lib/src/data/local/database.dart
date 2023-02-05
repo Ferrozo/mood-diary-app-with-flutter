@@ -21,7 +21,6 @@ class DBHelper {
       data,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print('sent to database');
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {

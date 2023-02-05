@@ -23,7 +23,7 @@ class StatisticMoodCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Container(
         padding: const EdgeInsets.all(15),
-        height: 100,
+        height: 110,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -59,6 +59,7 @@ class StatisticMoodCard extends StatelessWidget {
                   fontSize: 14,
                 ),
               ),
+              const SizedBox(height: 4),
               Image.asset(
                 moodImage,
                 width: 60,

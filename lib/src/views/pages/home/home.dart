@@ -1,13 +1,11 @@
 // ignore_for_file: unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
-import 'package:mood_diary_app_with_flutter/src/models/activity/activity_model.dart';
 import 'package:mood_diary_app_with_flutter/src/models/mood/mood_model.dart';
 import 'package:mood_diary_app_with_flutter/src/models/mood_card/mood_card.dart';
-import 'package:mood_diary_app_with_flutter/src/views/widgets/activity_icon/activity_icon.dart';
 import 'package:mood_diary_app_with_flutter/src/views/widgets/mood/mood_info_card.dart';
-import 'package:mood_diary_app_with_flutter/src/views/widgets/mood_icon/mood_icon.dart';
 import 'package:provider/provider.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,74 +31,7 @@ class _HomePageState extends State<HomePage> {
   Color colors = Colors.white;
   String? dateOnly;
   String? dayOfWeek;
-
-  List<MoodModel> moods = [
-    MoodModel(
-      image: 'assets/smile.gif',
-      title: 'Happy',
-      isSelected: false,
-      colors: [Colors.yellow.shade100, Colors.yellow.shade200],
-    ),
-    MoodModel(
-      image: 'assets/very_good.gif',
-      title: 'Very Good',
-      isSelected: false,
-      colors: [Colors.yellow.shade100, Colors.pink.shade100],
-    ),
-    MoodModel(
-      image: 'assets/excited.gif',
-      title: 'Excited',
-      isSelected: false,
-      colors: [
-        Colors.indigo.shade300,
-        Colors.yellow.shade100,
-        Colors.red.shade300,
-      ],
-    ),
-    MoodModel(
-      image: 'assets/calm.gif',
-      title: 'Calm',
-      isSelected: false,
-      colors: [Colors.yellow.shade200, Colors.yellow.shade800],
-    ),
-    MoodModel(
-      image: 'assets/disappointed.gif',
-      title: 'Disappointed',
-      isSelected: false,
-      colors: [Colors.yellow.shade200, Colors.yellow.shade900],
-    ),
-    MoodModel(
-      image: 'assets/sad.gif',
-      title: 'Sad',
-      isSelected: false,
-      colors: [Colors.yellow.shade200, Colors.yellow.shade500],
-    ),
-    MoodModel(
-      image: 'assets/angry.gif',
-      title: 'Angry',
-      isSelected: false,
-      colors: [Colors.yellow.shade100, Colors.pink.shade50],
-    ),
-    MoodModel(
-      image: 'assets/awful.gif',
-      title: 'Awful',
-      isSelected: false,
-      colors: [Colors.yellow.shade100, Colors.blue.shade100],
-    ),
-    MoodModel(
-      image: 'assets/not_good.gif',
-      title: 'Not Good',
-      isSelected: false,
-      colors: [Colors.yellow.shade100, Colors.yellow.shade700],
-    ),
-  ];
-
-  List<ActivityModel> act = [
-    ActivityModel(image: 'assets/1.png', name: 'Sports', selected: false),
-    ActivityModel(image: 'assets/1.png', name: 'Nothing', selected: false),
-    ActivityModel(image: 'assets/1.png', name: 'Something', selected: false),
-    ActivityModel(image: 'assets/1.png', name: 'Others', selected: false),
-  ];
+  List<MoodModel> moods = ListOfMoods.moods;
 
   @override
   void initState() {
@@ -112,6 +43,9 @@ class _HomePageState extends State<HomePage> {
         });
       }
     });
+    mood = moods[_currentIndex].title.toString();
+    image = moods[_currentIndex].image.toString();
+    print(mood);
     // dateTime = ;
     dayOfWeek = DateFormat('EEEE').format(dateTime).toString();
     dateOnly = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
@@ -137,11 +71,35 @@ class _HomePageState extends State<HomePage> {
         )),
         child: Scaffold(
           backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () => Navigator.of(context).pushNamed('/chart'),
+                  icon: const Icon(
+                    Icons.bar_chart_rounded,
+                    color: Colors.black,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed('/dashboard'),
+                  icon: const Icon(
+                    Icons.checklist_outlined,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
           body: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 80),
+                const SizedBox(height: 20),
                 Text(
                   'How are you \nfeeling Today?',
                   textAlign: TextAlign.center,
@@ -197,15 +155,15 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           onPressed: () async {
-                            await Provider.of<MoodCard>(context, listen: false)
+                            Provider.of<MoodCard>(context, listen: false)
                                 .addPlace(
-                              dateTime.toString(),
-                              mood.toString(),
                               dayOfWeek.toString(),
-                              dateOnly.toString(),
+                              mood.toString(),
                               image.toString(),
+                              dateTime.toString(),
+                              dateOnly.toString(),
                             );
-                            Navigator.of(context).pushNamed('/dashboard');
+                            await Navigator.of(context).pushNamed('/dashboard');
                           },
                         ),
                       ),
@@ -215,168 +173,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          // return Scaffold(
-          //   appBar: AppBar(),
-          //   body: Column(
-          //     children: <Widget>[
-          //       IconButton(
-          //         onPressed: () => setState(() {
-          //           print('Day of week : $dayOfWeek');
-          //         }),
-          //         icon: const Icon(Icons.dashboard),
-          //       ),
-          //       Row(children: <Widget>[
-          //         const SizedBox(width: 70),
-          //         IconButton(
-          //             icon: const Icon(Icons.date_range),
-          //             onPressed: () {
-          //               setState(() {
-          //                 // dateTime = DateTime.now().toString();
-          //                 print('datatiming : $dayOfWeek');
-          //               });
-          //             }
-          //             // => showDatePicker(
-          //             //             context: context,
-          //             //             initialDate: DateTime.now(),
-          //             //             firstDate: DateTime(2001),
-          //             //             lastDate: DateTime(2024))
-          //             //         .then(
-          //             //       (date) => {
-          //             //         setState(
-          //             //           () {
-          //             //             datePicked =
-          //             //                 '${date!.day.toString()} - ${date.month.toString()} - ${date.year.toString()}';
-          //             //             dateOnly =
-          //             //                 '${date.day..toString()} / ${date.month.toString()}';
-          //             //           },
-          //             //         ),
-          //             //       },
-          //             //     )
-          //             ),
-          //         IconButton(
-          //           icon: const Icon(Icons.timer),
-          //           onPressed: () =>
-          //               showTimePicker(context: context, initialTime: TimeOfDay.now())
-          //                   .then(
-          //             (time) => {
-          //               setState(
-          //                 () {
-          //                   timePicked = time!.format(context).toString();
-          //                 },
-          //               ),
-          //             },
-          //           ),
-          //         ),
-          //         Container(
-          //           height: 40,
-          //           width: 40,
-          //           child: FloatingActionButton(
-          //             child: const Icon(Icons.done),
-          //             onPressed: () => setState(() {
-          //               // dateTime = '${datePicked} ${timePicked}';
-          //               // ignore: avoid_print
-          //               print(dateTime);
-          //             }),
-          //           ),
-          //         )
-          //       ]),
-          //       Expanded(
-          //         child: ListView.builder(
-          //             scrollDirection: Axis.horizontal,
-          //             itemCount: moods.length,
-          //             itemBuilder: (context, index) {
-          //               return Row(
-          //                 children: <Widget>[
-          //                   const SizedBox(width: 15),
-          //                   GestureDetector(
-          //                       child: MoodIcon(
-          //                           image: moods[index].image,
-          //                           name: moods[index].title,
-          //                           color: moods[index].isSelected
-          //                               ? Colors.black
-          //                               : Colors.white),
-          //                       onTap: () => {
-          //                             if (onTapCount == 0)
-          //                               {
-          //                                 setState(() {
-          //                                   mood = moods[index].title;
-          //                                   image = moods[index].image;
-          //                                   moods[index].isSelected = true;
-          //                                   onTapCount += onTapCount;
-          //                                   print(mood);
-          //                                 }),
-          //                               }
-          //                             else if (moods[index].isSelected)
-          //                               {
-          //                                 setState(() {
-          //                                   moods[index].isSelected = false;
-          //                                   onTapCount = 0;
-          //                                 })
-          //                               }
-          //                           }),
-          //                 ],
-          //               );
-          //             }),
-          //       ),
-          //       const Text('WHAT YOU HAVE BEEN DOING?',
-          //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          //       const SizedBox(height: 10),
-          //       const Text('Hold on the activity to select,You can choose multiple',
-          //           style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
-          //       Expanded(
-          //         child: ListView.builder(
-          //             scrollDirection: Axis.horizontal,
-          //             itemCount: act.length,
-          //             itemBuilder: (context, index) {
-          //               return Row(children: <Widget>[
-          //                 const SizedBox(width: 15),
-          //                 GestureDetector(
-          //                     child: ActivityIcon(
-          //                         image: act[index].image,
-          //                         name: act[index].name,
-          //                         color: act[index].selected
-          //                             ? Colors.black
-          //                             : Colors.white),
-          //                     onTap: () {
-          //                       if (act[index].selected) {
-          //                         setState(() {
-          //                           act[index].selected = false;
-          //                         });
-          //                       } else {
-          //                         setState(
-          //                           () {
-          //                             act[index].selected = true;
-          //                             // Provider.of<MoodCard>(context, listen: false)
-          //                             //     .add(act[index]);
-
-          //                             print(act[index].selected);
-          //                           },
-          //                         );
-          //                       }
-          //                     }),
-          //               ]);
-          //             }),
-          //       ),
-          //       IconButton(
-          //         onPressed: () => {
-          //           // setState(
-          //           //   () {
-          //           //     Provider.of<MoodCard>(context, listen: false).addPlace(
-          //           //         dayOfWeek!,
-          //           //         mood!,
-          //           //         image!,
-          //           //         dateOnly!,
-          //           //         dateTime,
-          //           //         );
-          //           //   },
-          //           // ),
-          //           // Navigator.of(context).pushNamed('/home_screen'),
-          //         },
-          //         icon: const Icon(Icons.send),
-          //       )
-          //     ],
-          //   ),
-          // ),
         ));
   }
 }

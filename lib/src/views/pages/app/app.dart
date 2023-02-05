@@ -13,10 +13,11 @@ class App extends StatelessWidget {
       value: MoodCard(dayOfWeek: '', dateTime: '', image: '', mood: ''),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomePage(),
+        home: const HomePage(),
         routes: {
           '/home_screen': (ctx) => const HomePage(),
-          '/dashboard': (ctx) => Dashboard(),
+          '/dashboard': (ctx) => const Dashboard(),
+          '/chart': (ctx) => const Chart(),
         },
       ),
     );
