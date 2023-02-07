@@ -35,7 +35,12 @@ class _DashboardState extends State<Dashboard> {
                   const Text('Journal'),
                   const Spacer(),
                   IconButton(
-                      onPressed: () {}, icon: Icon(Icons.bar_chart_rounded))
+                    onPressed: () => Navigator.of(context).pushNamed('/chart'),
+                    icon: const Icon(
+                      Icons.bar_chart_rounded,
+                      color: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),

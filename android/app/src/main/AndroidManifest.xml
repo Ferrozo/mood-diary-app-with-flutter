@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mood_diary_app_with_flutter">
    <application
-        android:label="mood_diary_app_with_flutter"
+        android:label="Karitas"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
