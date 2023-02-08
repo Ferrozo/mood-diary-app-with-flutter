@@ -1,16 +1,14 @@
-# mood_diary_app_with_flutter
 
-A new Flutter project.
+<h1 align="center">Karitas</h1>
 
-## Getting Started
+<p align="center">
+ Karitas is a mobile app to demostre your diary feeling.
+</p>
+<img src='./screens.jpg'>
 
-This project is a starting point for a Flutter application.
+## Download
+Go to the [Google play](https://) to download the  APP.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<a href='' target='_blank'>
+    <img src='https://lh3.googleusercontent.com/q1k2l5CwMV31JdDXcpN4Ey7O43PxnjAuZBTmcHEwQxVuv_2wCE2gAAQMWxwNUC2FYEOnYgFPOpw6kmHJWuEGeIBLTj9CuxcOEeU8UXyzWJq4NJM3lg=s0'>
+</a>
