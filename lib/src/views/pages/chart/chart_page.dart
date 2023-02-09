@@ -1,9 +1,28 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:mood_diary_app_with_flutter/src/models/data_item/data_item.dart';
+import 'package:mood_diary_app_with_flutter/src/views/widgets/chart_widget/chart_widget.dart';
 
+// ignore: must_be_immutable
 class ChartPage extends StatelessWidget {
-  const ChartPage({Key? key}) : super(key: key);
-
+  ChartPage({Key? key}) : super(key: key);
+  List<DataItem> dataList = [
+    const DataItem(
+        value: 0.125, label: 'Happy', color: Color.fromARGB(241, 250, 159, 23)),
+    const DataItem(
+        value: 0.125,
+        label: 'Very Go',
+        color: Color.fromARGB(175, 233, 159, 30)),
+    const DataItem(
+        value: 0.125,
+        label: 'Excited',
+        color: Color.fromARGB(198, 68, 137, 255)),
+    const DataItem(
+        value: 0.125, label: 'Calm', color: Color.fromARGB(240, 198, 255, 222)),
+    DataItem(value: 0.125, label: 'Disappo', color: Colors.green[400]!),
+    const DataItem(value: 0.125, label: 'Sad', color: Colors.yellow),
+    DataItem(value: 0.125, label: 'Awful ', color: Colors.green[50]!),
+    DataItem(value: 0.125, label: 'Not Go ', color: Colors.green[100]!),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,36 +44,12 @@ class ChartPage extends StatelessWidget {
           ],
         ),
       ),
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: Colors.black,
       body: Center(
-        child: AspectRatio(
-          aspectRatio: 1.0,
-          child: PieChart(
-            PieChartData(
-              sections: data,
-              centerSpaceRadius: 100,
-              sectionsSpace: 20,
-              centerSpaceColor: Colors.yellow.shade200,
-              startDegreeOffset: -90,
-              // read about it in the PieChartData section
-            ),
-            swapAnimationDuration:
-                const Duration(milliseconds: 150), // Optional
-            swapAnimationCurve: Curves.linear, // Optional
-          ),
+        child: ChartWidget(
+          dataList: dataList,
         ),
       ),
     );
   }
 }
-
-List<PieChartSectionData> data = [
-  PieChartSectionData(title: 'Happy', color: Colors.orange),
-  PieChartSectionData(title: 'Very Go', color: Colors.pink),
-  PieChartSectionData(title: 'Excited', color: Colors.blueAccent),
-  PieChartSectionData(title: 'Calm', color: Colors.white30),
-  PieChartSectionData(title: 'Disappo', color: Colors.green[400]),
-  PieChartSectionData(title: 'Sad', color: Colors.yellow),
-  PieChartSectionData(title: 'Awful ', color: Colors.green[50]),
-  PieChartSectionData(title: 'Not Go ', color: Colors.green[100]),
-];

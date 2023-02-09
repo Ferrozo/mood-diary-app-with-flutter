@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:mood_diary_app_with_flutter/src/models/mood/mood_model.dart';
 import 'package:mood_diary_app_with_flutter/src/models/mood_card/mood_card.dart';
+import 'package:mood_diary_app_with_flutter/src/views/widgets/mood/mood_info_card.dart';
 import 'package:provider/provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
@@ -108,33 +109,38 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 100),
-                // AspectRatio(
-                //   aspectRatio: 1.4,
-                //   child: PageView.builder(
-                //       onPageChanged: (_) {
-                //         setState(() {
-                //           mood = moods[_currentIndex].title;
-                //           image = moods[_currentIndex].image;
-                //           // moods[_currentPage.page!.toInt()].isSelected = true;
-                //           // onTapCount += onTapCount;
-                //         });
-                //       },
-                //       controller: _currentPage,
-                //       itemCount: moods.length,
-                //       itemBuilder: (_, currentIndex) {
-                //         return Center(
-                //           child: MoodInfoCard(
-                //             moodTitle: moods[currentIndex].title,
-                //             moodEmoji: moods[currentIndex].image,
-                //           ),
-                //         );
-                //       }),
-                // ),
+                AspectRatio(
+                  aspectRatio: 1.4,
+                  child: PageView.builder(
+                      onPageChanged: (_) {
+                        setState(() {
+                          mood = moods[_currentIndex].title;
+                          image = moods[_currentIndex].image;
+                          // moods[_currentPage.page!.toInt()].isSelected = true;
+                          // onTapCount += onTapCount;
+                        });
+                      },
+                      controller: _currentPage,
+                      itemCount: moods.length,
+                      itemBuilder: (_, currentIndex) {
+                        return Center(
+                          child: MoodInfoCard(
+                            moodTitle: moods[currentIndex].title,
+                            moodEmoji: moods[currentIndex].image,
+                          ),
+                        );
+                      }),
+                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(50),
+                      //   ),
+                      // ),
                       const SizedBox(height: 80),
                       Container(
                         decoration: BoxDecoration(

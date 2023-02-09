@@ -2,7 +2,7 @@
 <h1 align="center">Karitas</h1>
 
 <p align="center">
- Karitas is a mobile app to demostre your diary feeling.
+ Karitas is a mobile app to track your diary feeling.
 </p>
 <img src='./screens.jpg'>
 

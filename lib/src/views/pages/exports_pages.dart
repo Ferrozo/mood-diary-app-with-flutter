@@ -1,3 +1,4 @@
 export './app/app.dart';
 export './home/home.dart';
-export 'chart/chart_page.dart';
+export './chart/chart_page.dart';
+export './splash/splash.dart';

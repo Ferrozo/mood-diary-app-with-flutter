@@ -17,11 +17,18 @@ class _DashboardState extends State<Dashboard> {
   List<Color> colors = [Colors.yellow.shade100, Colors.yellow.shade200];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     loader = Provider.of<MoodCard>(context, listen: true).isloading;
     return loader
         ? const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Colors.amber,
+            ),
           )
         : Scaffold(
             backgroundColor: Colors.black,
@@ -46,9 +53,8 @@ class _DashboardState extends State<Dashboard> {
             ),
             body: FutureBuilder<List>(
               future: DBHelper.getData('user_moods'),
-              // initialData: const [],
               builder: (context, snapshot) {
-                return snapshot.hasData
+                return snapshot.hasData && snapshot.data!.isNotEmpty
                     ? ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data?.length,
@@ -66,8 +72,23 @@ class _DashboardState extends State<Dashboard> {
                         },
                       )
                     : Center(
-                        child: CircularProgressIndicator(
-                            color: Colors.yellow.shade800),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/warning.png',
+                              width: 120,
+                            ),
+                            const SizedBox(height: 50),
+                            const Text(
+                              'Without moods to show',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
                       );
               },
             ),
